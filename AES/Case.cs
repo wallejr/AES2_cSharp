@@ -11,10 +11,17 @@ namespace AES
         private int caseID;
         private string requester;
         private Category cat;
+
+        public Category Cat
+        {
+            get { return cat; }
+            set { cat = value; }
+        }
         private string state;
         private string workDesc;
-        private Personal pLeader;
+        private Personal requesterName;
         private Personal assigne;
+        private Personal createdBy;
         private DateTime created;
         private DateTime changed;
         private int countTime;
@@ -23,6 +30,45 @@ namespace AES
         private string caseDesc;
         private string solution;
         private string comments;
+        private string phoneNr;
+        private string computerName;
+        private Department dep;
+
+        public Department Dep
+        {
+            get { return dep; }
+            set { dep = value; }
+        }
+
+        public string ComputerName
+        {
+            get { return computerName; }
+            set { computerName = value; }
+        }
+
+        public Personal Assigne
+        {
+            get { return assigne; }
+            set { assigne = value; }
+        }
+
+        public string PhoneNr
+        {
+            get { return phoneNr; }
+            set { phoneNr = value; }
+        }
+
+        public Personal RequesterName
+        {
+            get { return requesterName; }
+            set { requesterName = value; }
+        }
+
+        public Personal CreatedBy
+        {
+            get { return createdBy; }
+            set { createdBy = value; }
+        }
 
         public string Comments
         {
