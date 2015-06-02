@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace AES
 {
-    class ListManager
+    public class ListManager<T> : IListManager<T>
     {
 
 
@@ -16,6 +16,13 @@ namespace AES
         private List<T> m_list;
         private int count;
 
+        /// <summary>
+        /// Default konstruktor utan parametrar. Skapar och tillderar m_list en ny collection av List
+        /// </summary>
+        public ListManager()
+        {
+            m_list = new List<T>();
+        }
 
         public int Count
         {
@@ -42,13 +49,7 @@ namespace AES
         }
 
 
-        /// <summary>
-        /// Default konstruktor utan parametrar. Skapar och tillderar m_list en ny collection av List
-        /// </summary>
-        public ListManager()
-        {
-            m_list = new List<T>();
-        }
+
 
         /// <summary>
         /// Metod som hanterar listan av valfri typ genom att den är deklarerad med <T> så håller respektive lista sina egna objekt

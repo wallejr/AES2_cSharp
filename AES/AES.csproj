@@ -64,8 +64,10 @@
     <Compile Include="Case.cs" />
     <Compile Include="CaseManager.cs" />
     <Compile Include="Category.cs" />
+    <Compile Include="CustomSqlException.cs" />
     <Compile Include="Department.cs" />
     <Compile Include="Competense.cs" />
+    <Compile Include="IListManager.cs" />
     <Compile Include="IPersonal.cs" />
     <Compile Include="ItSupport.cs" />
     <Compile Include="ListManager.cs" />

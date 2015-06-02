@@ -16,7 +16,7 @@ namespace AES
             set { permissionCreate = value; }
         }
 
-        public bool permissionCreate()
+        public bool permissionValidation()
         {
             if(PermissionCreate == "true")
             {

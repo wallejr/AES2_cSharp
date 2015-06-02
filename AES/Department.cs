@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace AES
 {
-    public static class Department
+    public class Department
     {
         string depName;
 

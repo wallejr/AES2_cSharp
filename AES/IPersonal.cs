@@ -6,8 +6,8 @@ using System.Threading.Tasks;
 
 namespace AES
 {
-    public interface IPersonal
+    interface IPersonal
     {
-        public string getName();
+        string getName();
     }
 }
