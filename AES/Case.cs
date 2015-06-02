@@ -9,13 +9,13 @@ namespace AES
     public class Case
     {
         private int caseID;
-        private Personal requester;
+        private string requester;
         private Category cat;
-        private Status state;
+        private string state;
         private string workDesc;
         private Personal pLeader;
         private Personal assigne;
-        private DateTime Created;
+        private DateTime created;
         private DateTime changed;
         private int countTime;
         private int totalTime;
@@ -24,6 +24,18 @@ namespace AES
         private string solution;
         private string comments;
 
+        public string Comments
+        {
+            get { return comments; }
+            set { comments = value; }
+        }
+
+        public string State
+        {
+            get { return state; }
+            set { state = value; }
+        }
+
 
         public int CaseID
         {
@@ -31,11 +43,63 @@ namespace AES
             set { caseID = value; }
         }
 
-        public Personal Requester
+        public string WorkDesc
+        {
+            get { return workDesc; }
+            set { workDesc = value; }
+        }
+
+
+        public DateTime Created
+        {
+            get { return created; }
+            set { created = value; }
+        }
+
+        public string Requester
         {
             get { return requester; }
             set { requester = value; }
         }
+
+        public DateTime Changed
+        {
+            get { return changed; }
+            set { changed = value; }
+        }
+
+        public int CountTime
+        {
+            get { return countTime; }
+            set { countTime = value; }
+        }
+
+        public int TotalTime
+        {
+            get { return totalTime; }
+            set { totalTime = value; }
+        }
+
+        public string CaseTitle
+        {
+            get { return caseTitle; }
+            set { caseTitle = value; }
+        }
+
+        public string CaseDesc
+        {
+            get { return caseDesc; }
+            set { caseDesc = value; }
+        }
+
+
+        public string Solution
+        {
+            get { return solution; }
+            set { solution = value; }
+        }
+
+
 
     }
 }
