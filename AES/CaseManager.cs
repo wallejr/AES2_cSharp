@@ -8,7 +8,7 @@ using System.Data;
 
 namespace AES
 {
-    public class CaseManager
+    public class CaseManager : ListManager<Case>
     {
         public bool addCase(Case caset)
     {
@@ -107,6 +107,47 @@ namespace AES
         return succes;
     
     }//End metod addCase
+
+        public List<Case> loadFromDatabase()
+        {
+            string sqlPath = @"Data Source=WIN-1UG6IV73N5H;Initial Catalog=AES;Persist Security Info=True;User ID=sa;Password=aik71111";
+            
+
+
+            using(var con = new SqlConnection(sqlPath))
+            { string query = "SELECT * FROM CASES";
+                    var cmd = new SqlCommand(query, con);
+                    cmd.CommandType = CommandType.Text;
+                    con.Open();
+                
+                    using(SqlDataReader objReader = cmd.ExecuteReader())
+                    {
+                         if(objReader.HasRows)
+                        {
+                            while(objReader.Read())
+                            {
+                                var c = new Case();
+                                c.CaseID = Convert.ToInt32(objReader["CASE_ID"]);
+                                c.CaseTitle = objReader["TITEL"].ToString();
+                                c.CaseDesc = objReader["DESCRIPTION"].ToString();
+                                c.Created = Convert.ToDateTime(objReader["SKAPATDEN"]);
+                                c.Changed = Convert.ToDateTime(objReader["ANDRATDEN"]);
+                                c.State = objReader["STATE"].ToString();
+                                c.Assigne = (Personal)objReader["ASSIGNE"];
+
+                                a_List.Add(c);
+
+                            }
+                    }
+                }     
+            }
+
+            return a_List;
+
+          
+            
+
+        }
     
     //public bool updateCase(Case caset)
     //{

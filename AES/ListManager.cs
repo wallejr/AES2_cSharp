@@ -1,5 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
+using System.Data.Entity.Core.Objects;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -13,7 +16,7 @@ namespace AES
         /// <summary>
         /// Instance variable som innehåller collection m_list
         /// </summary>
-        private List<T> m_list;
+        private List<T> a_list;
         private int count;
 
         /// <summary>
@@ -21,14 +24,14 @@ namespace AES
         /// </summary>
         public ListManager()
         {
-            m_list = new List<T>();
+            a_list = new List<T>();
         }
 
         public int Count
         {
             get
             {
-                return m_list.Count();
+                return a_list.Count();
             }
             set
             {
@@ -36,19 +39,17 @@ namespace AES
             }
         }
 
-        public List<T> M_List
+        public List<T> a_List
         {
             get
             {
-                return m_list;
+                return a_list;
             }
             set
             {
-                m_list = value;
+                a_list = value;
             }
         }
-
-
 
 
         /// <summary>
@@ -60,7 +61,7 @@ namespace AES
         {
             if (aType != null)
             {
-                m_list.Add(aType);
+                a_list.Add(aType);
                 return true;
             }
             else
@@ -79,7 +80,7 @@ namespace AES
             {
                 if (CheckIndex(anIndex))
                 {
-                    m_list.RemoveAt(anIndex);
+                    a_list.RemoveAt(anIndex);
                     return true;
                 }
                 else
@@ -98,7 +99,7 @@ namespace AES
         /// <returns>Item i listan på utsatt index</returns>
         public T GetAt(int anIndex)
         {
-            T item = m_list[anIndex];
+            T item = a_list[anIndex];
 
             return item;
 
@@ -111,7 +112,7 @@ namespace AES
         /// <returns>True om objekt är inom listans gränser annars false</returns>
         public bool CheckIndex(int index)
         {
-            Count = m_list.Count;
+            Count = a_list.Count;
             if (index <= Count && index >= 0)
                 return true;
             else
@@ -128,8 +129,8 @@ namespace AES
         {
             if (CheckIndex(anIndex))
             {
-                m_list.RemoveAt(anIndex);
-                m_list.Insert(anIndex, aType);
+                a_list.RemoveAt(anIndex);
+                a_list.Insert(anIndex, aType);
                 return true;
             }
             else
@@ -143,10 +144,10 @@ namespace AES
         /// <returns></returns>
         public string[] ToStringArray()
         {
-            string[] strInfoStrings = new string[m_list.Count];
+            string[] strInfoStrings = new string[a_list.Count];
 
             int i = 0;
-            foreach (var T in m_list)
+            foreach (var T in a_list)
             {
                 strInfoStrings[i++] = T.ToString();
             }

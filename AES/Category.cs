@@ -8,8 +8,28 @@ namespace AES
 {
     public class Category
     {
-        public static Competense getCategorName(string category)
+        public static string getCategorName(Competense category)
         {
+            string kategori = null;
+
+            switch(category)
+            {
+                case Competense.Installation:
+                    kategori = Competense.Installation.ToString();
+                    break;
+                case Competense.Network:
+                    kategori = Competense.Network.ToString();
+                    break;
+                case Competense.Security:
+                    kategori = Competense.Security.ToString();
+                    break;
+                case Competense.Users:
+                    kategori = Competense.Users.ToString();
+                    break;
+
+            }
+
+            return kategori;
 
         }
 

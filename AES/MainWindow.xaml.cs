@@ -20,9 +20,29 @@ namespace AES
     /// </summary>
     public partial class MainWindow : Window
     {
+        private CaseManager cm = new CaseManager();
+        
+
         public MainWindow()
         {
             InitializeComponent();
+            LoadCases();
+        }
+
+        private void LoadCases()
+        {
+            this.DgCases.ItemsSource = cm.a_List;
+        }
+
+        private void Window_Loaded(object sender, RoutedEventArgs e)
+        {
+            
+        }
+
+        private void btnNew_Click(object sender, RoutedEventArgs e)
+        {
+            CaseWindow cw = new CaseWindow();
+            cw.Show();
         }
     }
 }

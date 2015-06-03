@@ -1,8 +1,13 @@
 ﻿<Window x:Class="AES.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Title="MainWindow" Height="350" Width="525">
+        Title="MainWindow" Height="614" Width="1031"
+        Loaded="Window_Loaded">
     <Grid>
-        
+        <Label Content="Request Case Software" HorizontalAlignment="Left" Margin="288,42,0,0" VerticalAlignment="Top" Height="78" Width="504" FontSize="48"/>
+        <Label Content="Open Cases:" HorizontalAlignment="Left" Margin="10,171,0,0" VerticalAlignment="Top" Width="104"/>
+        <DataGrid x:Name="DgCases" HorizontalAlignment="Left" Margin="10,202,0,0" VerticalAlignment="Top" Height="315" Width="1006"/>
+        <Button x:Name="btnNew" Content="New Case" HorizontalAlignment="Left" Margin="897,161,0,0" VerticalAlignment="Top" Width="119" Height="30" Click="btnNew_Click"/>
+
     </Grid>
 </Window>
