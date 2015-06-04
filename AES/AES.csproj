@@ -105,6 +105,7 @@
     <Compile Include="IPersonal.cs" />
     <Compile Include="ItSupport.cs" />
     <Compile Include="ListManager.cs" />
+    <Compile Include="PersonalManager.cs" />
     <Compile Include="Status.cs" />
     <Compile Include="User.cs" />
     <Compile Include="MainWindow.xaml.cs">

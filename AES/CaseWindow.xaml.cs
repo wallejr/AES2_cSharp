@@ -19,9 +19,47 @@ namespace AES
     /// </summary>
     public partial class CaseWindow : Window
     {
+        CaseManager cm = new CaseManager();
+
         public CaseWindow()
         {
             InitializeComponent();
+            initGUI();
         }
+      
+
+        private void initGUI()
+        {
+            txtBoxCaseID.Text = "";
+            txtBoxCreated.Text = "";
+            txtBoxChanged.Text = "";
+            txtBoxUserName.Text = "";
+            txtBoxFullName.Text = "";
+            txtBoxPhone.Text = "";
+            txtBoxCity.Text = "";
+            txtBoxCompName.Text = "";
+            txtBoxCreatedBy.Text = "";
+            txtBoxTitel.Text = "";
+            txtBoxCaseDesc.AppendText("");
+            txtBoxComments.AppendText("");
+            txtBoxSolution.AppendText("");
+        }
+
+        private void btnCancel_Click(object sender, RoutedEventArgs e)
+        {
+            this.Close();
+        }
+
+        private void btnSave_Click(object sender, RoutedEventArgs e)
+        {
+            saveNewCase();
+        }
+
+        private void saveNewCase()
+        {
+
+        }
+
+
     }
 }

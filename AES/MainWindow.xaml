@@ -6,7 +6,12 @@
     <Grid>
         <Label Content="Request Case Software" HorizontalAlignment="Left" Margin="288,42,0,0" VerticalAlignment="Top" Height="78" Width="504" FontSize="48"/>
         <Label Content="Open Cases:" HorizontalAlignment="Left" Margin="10,171,0,0" VerticalAlignment="Top" Width="104"/>
-        <DataGrid x:Name="DgCases" HorizontalAlignment="Left" Margin="10,202,0,0" VerticalAlignment="Top" Height="315" Width="1006"/>
+        <DataGrid x:Name="DgCases" HorizontalAlignment="Left" Margin="10,202,0,0" VerticalAlignment="Top" Height="315" Width="1006" AutoGenerateColumns="False">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="CaseID" Binding="{Binding CaseID}" />
+                <DataGridTextColumn Header="Titel" Binding="{Binding CaseTitle}" />
+            </DataGrid.Columns>
+        </DataGrid>
         <Button x:Name="btnNew" Content="New Case" HorizontalAlignment="Left" Margin="897,161,0,0" VerticalAlignment="Top" Width="119" Height="30" Click="btnNew_Click"/>
 
     </Grid>

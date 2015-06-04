@@ -115,7 +115,8 @@ namespace AES
 
 
             using(var con = new SqlConnection(sqlPath))
-            { string query = "SELECT * FROM CASES";
+            {
+                string query = "select CASES_ID as \"CaseID\", TITEL as \"Titel\", DESCRIPTION as \"Description\", SKAPATDEN as \"Created\", ANDRATDEN as \"Changed\", STATUS as \"Status\", ASSIGNE as \"Assigned\" from AES.CASES where STATUS='Opened'";
                     var cmd = new SqlCommand(query, con);
                     cmd.CommandType = CommandType.Text;
                     con.Open();

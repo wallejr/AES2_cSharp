@@ -8,9 +8,9 @@ namespace AES
 {
     class ItSupport : Personal
     {
-        private Competense kompetens;
+        private string kompetens;
 
-        public Competense Kompetens
+        public string Kompetens
         {
             get { return kompetens; }
             set { kompetens = value; }
