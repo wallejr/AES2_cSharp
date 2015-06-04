@@ -98,6 +98,7 @@
       <DependentUpon>CaseWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="Category.cs" />
+    <Compile Include="CategoryManager.cs" />
     <Compile Include="CustomSqlException.cs" />
     <Compile Include="Department.cs" />
     <Compile Include="Competense.cs" />

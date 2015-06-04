@@ -6,14 +6,14 @@ using System.Threading.Tasks;
 
 namespace AES
 {
-    public class Department
+    public enum Department
     {
-        string depName;
+        Finance,
+        Logistik,
+        Postal,
+        Cleaning,
+        Productions,
+        Development,
 
-        public string DepName
-        {
-            get { return depName; }
-            set { depName = value; }
-        }
     }
 }

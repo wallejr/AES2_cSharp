@@ -1,41 +1,28 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace AES
 {
-    public class Category
+    public class Category : ListManager<Category>
     {
-        public static string getCategorName(Competense category)
+
+        private string cat;
+
+        public string Cat
         {
-            string kategori = null;
-
-            switch(category)
-            {
-                case Competense.Installation:
-                    kategori = Competense.Installation.ToString();
-                    break;
-                case Competense.Network:
-                    kategori = Competense.Network.ToString();
-                    break;
-                case Competense.Security:
-                    kategori = Competense.Security.ToString();
-                    break;
-                case Competense.Users:
-                    kategori = Competense.Users.ToString();
-                    break;
-
-            }
-
-            return kategori;
-
+            get { return cat; }
+            set { cat = value; }
         }
 
-        public void getArbBesk()
+        public override string ToString()
         {
-
+            return Cat;
         }
+       
     }
 }

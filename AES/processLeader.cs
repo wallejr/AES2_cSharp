@@ -9,6 +9,13 @@ namespace AES
     public class processLeader : Personal
     {
         private string permissionCreate;
+        private string compentence;
+
+        public string Compentence
+        {
+            get { return compentence; }
+            set { compentence = value; }
+        }
 
         public string PermissionCreate
         {
