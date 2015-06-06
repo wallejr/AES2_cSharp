@@ -66,6 +66,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="CommentsWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -99,6 +103,11 @@
     </Compile>
     <Compile Include="Category.cs" />
     <Compile Include="CategoryManager.cs" />
+    <Compile Include="Comment.cs" />
+    <Compile Include="CommentManager.cs" />
+    <Compile Include="CommentsWindow.xaml.cs">
+      <DependentUpon>CommentsWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="CustomSqlException.cs" />
     <Compile Include="Department.cs" />
     <Compile Include="Competense.cs" />

@@ -13,11 +13,10 @@
         <Label Content="Changed:" HorizontalAlignment="Left" Height="26" Margin="495,10,0,0" VerticalAlignment="Top"/>
         <TextBox x:Name="txtBoxChanged" HorizontalAlignment="Left" Height="22" Margin="555,13,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="160" IsReadOnly="True" TextAlignment="Center" Background="#FFD5D4D4"/>
         <Label x:Name="lblStatus" Content="Status:" HorizontalAlignment="Left" Height="25" Margin="778,10,0,0" VerticalAlignment="Top"/>
-        <ComboBox x:Name="comboBoxState" HorizontalAlignment="Left" Height="22" Margin="828,13,0,0" VerticalAlignment="Top" Width="130" SelectedItem="Not Assigned" />
+        <ComboBox x:Name="comboBoxState" HorizontalAlignment="Left" Height="22" Margin="828,13,0,0" VerticalAlignment="Top" Width="130" />
         <Label x:Name="lblCreatedBy" Content="Created By:" HorizontalAlignment="Left" Height="24" Margin="751,45,0,0" VerticalAlignment="Top"/>
-        <TextBox x:Name="txtBoxCreatedBy" HorizontalAlignment="Left" Height="22" Margin="828,47,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="130" TextAlignment="Right"/>
         <Label Content="Assigned to:" HorizontalAlignment="Left" Height="24" Margin="745,80,0,0" VerticalAlignment="Top" Width="75"/>
-        <ComboBox HorizontalAlignment="Left" Height="22" Margin="828,82,0,0" VerticalAlignment="Top" Width="130"/>
+        <ComboBox x:Name="comboBoxAssigne" HorizontalAlignment="Left" Height="22" Margin="828,82,0,0" VerticalAlignment="Top" Width="130"/>
         <GroupBox Header="Requester Information" HorizontalAlignment="Left" Height="133" Margin="10,105,0,0" VerticalAlignment="Top" Width="456" BorderThickness="2"/>
         <Label x:Name="lblUserName" Content="Username:" HorizontalAlignment="Left" Height="26" Margin="21,126,0,0" VerticalAlignment="Top"/>
         <TextBox x:Name="txtBoxUserName" HorizontalAlignment="Left" Height="22" Margin="92,130,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="120"/>
@@ -26,7 +25,7 @@
         <Label x:Name="lblPhone" Content="Phone:" HorizontalAlignment="Left" Height="25" Margin="41,192,0,0" VerticalAlignment="Top"/>
         <TextBox x:Name="txtBoxPhone" HorizontalAlignment="Left" Height="23" Margin="92,194,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="120"/>
         <Label x:Name="lblDepartment" Content="Department:" HorizontalAlignment="Left" Height="26" Margin="252,126,0,0" VerticalAlignment="Top"/>
-        <ComboBox x:Name="comboBoxDepartment" HorizontalAlignment="Left" Height="23" Margin="333,130,0,0" VerticalAlignment="Top" Width="120" SelectedItem="Finance"/>
+        <ComboBox x:Name="comboBoxDepartment" HorizontalAlignment="Left" Height="23" Margin="333,130,0,0" VerticalAlignment="Top" Width="120"/>
         <Label x:Name="lblCity" Content="City:" HorizontalAlignment="Left" Height="24" Margin="295,160,0,0" VerticalAlignment="Top"/>
         <TextBox x:Name="txtBoxCity" HorizontalAlignment="Left" Height="24" Margin="333,162,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="120"/>
         <Label x:Name="lblCompName" Content="Computername:" HorizontalAlignment="Left" Height="25" Margin="232,192,0,0" VerticalAlignment="Top"/>
@@ -35,40 +34,23 @@
         <Label x:Name="lblTitle" Content="Titel:" HorizontalAlignment="Left" Height="23" Margin="21,274,0,0" VerticalAlignment="Top"/>
         <TextBox x:Name="txtBoxTitel" HorizontalAlignment="Left" Height="22" Margin="61,278,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="571"/>
         <Label x:Name="lblCaseDesc" Content="Case description:" HorizontalAlignment="Left" Height="24" Margin="21,305,0,0" VerticalAlignment="Top"/>
-        <RichTextBox x:Name="txtBoxCaseDesc" HorizontalAlignment="Left" Height="271" Margin="21,334,0,0" VerticalAlignment="Top" Width="611">
-            <FlowDocument>
-                <Paragraph>
-                    <Run Text="RichTextBox"/>
-                </Paragraph>
-            </FlowDocument>
-        </RichTextBox>
         <GroupBox Header="Worktask" HorizontalAlignment="Left" Height="376" Margin="653,243,0,0" VerticalAlignment="Top" Width="332" BorderThickness="2"/>
         <DataGrid x:Name="dgwTask" HorizontalAlignment="Left" Height="267" Margin="664,263,0,0" VerticalAlignment="Top" Width="309"/>
         <Button x:Name="btnDelTask" Content="Delete Task" HorizontalAlignment="Left" Height="24" Margin="890,581,0,0" VerticalAlignment="Top" Width="83"/>
-        <Button x:Name="btnAddTask" Content="Button" HorizontalAlignment="Left" Height="24" Margin="778,581,0,0" VerticalAlignment="Top" Width="83"/>
+        <Button x:Name="btnAddTask" Content="Button" HorizontalAlignment="Left" Height="24" Margin="778,581,0,0" VerticalAlignment="Top" Width="83" Click="btnAddTask_Click"/>
         <GroupBox x:Name="grpComments" Header="Comments" HorizontalAlignment="Left" Height="164" Margin="10,624,0,0" VerticalAlignment="Top" Width="364" BorderThickness="2"/>
-        <RichTextBox x:Name="txtBoxComments" HorizontalAlignment="Left" Height="130" Margin="20,647,0,0" VerticalAlignment="Top" Width="233">
-            <FlowDocument>
-                <Paragraph>
-                    <Run Text="RichTextBox"/>
-                </Paragraph>
-            </FlowDocument>
-        </RichTextBox>
-        <Button x:Name="btnReadComments" Content="Read Comments" HorizontalAlignment="Left" Height="24" Margin="262,752,0,0" VerticalAlignment="Top" Width="98"/>
+        <Button x:Name="btnReadComments" Content="Read Comments" HorizontalAlignment="Left" Height="24" Margin="262,752,0,0" VerticalAlignment="Top" Width="98" Click="btnReadComments_Click"/>
         <GroupBox x:Name="grpBoxSolution" Header="Solution" HorizontalAlignment="Left" Height="164" Margin="379,624,0,0" VerticalAlignment="Top" Width="269" BorderThickness="2"/>
-        <RichTextBox x:Name="txtBoxSolution" HorizontalAlignment="Left" Height="129" Margin="391,647,0,0" VerticalAlignment="Top" Width="243">
-            <FlowDocument>
-                <Paragraph>
-                    <Run Text="RichTextBox"/>
-                </Paragraph>
-            </FlowDocument>
-        </RichTextBox>
         <GroupBox x:Name="grpBoxSaveAndClose" Header="Save and Close" HorizontalAlignment="Left" Height="101" Margin="653,687,0,0" VerticalAlignment="Top" Width="332" BorderThickness="2">
             <Button x:Name="btnSave" Content="Save and Close" HorizontalAlignment="Left" Margin="44,48,0,0" VerticalAlignment="Top" Width="111" Height="24" Click="btnSave_Click"/>
         </GroupBox>
         <Button x:Name="btnCancel" Content="Cancel" HorizontalAlignment="Left" Height="24" Margin="860,752,0,0" VerticalAlignment="Top" Width="75" Click="btnCancel_Click"/>
         <Label Content="Category:" HorizontalAlignment="Left" Height="29" Margin="10,45,0,0" VerticalAlignment="Top"/>
-        <ComboBox x:Name="comboBoxCategory" HorizontalAlignment="Left" Height="22" Margin="76,47,0,0" VerticalAlignment="Top" Width="120"/>
+        <ComboBox x:Name="comboBoxCategory" HorizontalAlignment="Left" Height="22" Margin="76,47,0,0" VerticalAlignment="Top" Width="120" SelectionChanged="comboBoxCategory_SelectionChanged"/>
+        <TextBox x:Name="txtBoxCaseDesc" HorizontalAlignment="Left" Height="271" Margin="21,334,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="611"/>
+        <TextBox x:Name="txtBoxComments" HorizontalAlignment="Left" Height="129" Margin="21,647,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="230"/>
+        <TextBox x:Name="txtBoxSolution" HorizontalAlignment="Left" Height="129" Margin="391,647,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="241"/>
+        <ComboBox x:Name="comboBoxCreateBy" HorizontalAlignment="Left" Height="22" Margin="828,47,0,0" VerticalAlignment="Top" Width="130"/>
 
 
 

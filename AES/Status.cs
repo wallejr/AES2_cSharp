@@ -10,8 +10,6 @@ namespace AES
     public enum Status
     {
 
-        [Description("Not Assigned")]
-        NotAssigned,
         [Description("Open")]
         Open,
         [Description("Assigned")]

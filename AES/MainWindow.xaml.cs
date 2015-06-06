@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -27,22 +29,50 @@ namespace AES
         {
             InitializeComponent();
             LoadCases();
+
+            CultureInfo.CreateSpecificCulture("en-US");
         }
 
         private void LoadCases()
         {
+            cm.loadFromDatabase();
             this.DgCases.ItemsSource = cm.a_List;
-        }
-
-        private void Window_Loaded(object sender, RoutedEventArgs e)
-        {
-            
         }
 
         private void btnNew_Click(object sender, RoutedEventArgs e)
         {
             CaseWindow cw = new CaseWindow();
-            cw.Show();
+            cw.ShowDialog();
+            LoadCases();
         }
+
+        private void btnOpenCase_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                int selected = DgCases.SelectedIndex;
+                if (selected < 0)
+                {
+                    MessageBox.Show("You must select a case in the list to open");
+                }
+                else
+                {
+                    Case c = new Case();
+                    CaseWindow cw = new CaseWindow();
+                    cw.openCase(((Case)DgCases.SelectedItem).CaseID);
+                    cw.comboBoxCreateBy.IsReadOnly = true;
+                    
+                    cw.ShowDialog();
+                }
+                LoadCases();
+            }
+            catch(Exception ex)
+            {
+                MessageBox.Show("An error occured \n" + ex.Message);
+            }
+
+
+            
+        }//ENd method
     }
 }

@@ -10,245 +10,320 @@ namespace AES
 {
     public class CaseManager : ListManager<Case>
     {
+        public int GetPKID { get; set; }
+
         public bool addCase(Case caset)
-    {
-        bool succes = false;
-        SqlConnection cn = null;
-
-        try
         {
-            string SqlPath = @"Data Source=WIN-1UG6IV73N5H;Initial Catalog=AES;Persist Security Info=True;User ID=sa;Password=aik71111";
-            using (cn = new SqlConnection(SqlPath))
-            
+            bool succes = false;
+            SqlConnection cn = null;
+
+            try
             {
-                try
+                string sqlPath = "User ID=sa; Password=aik71111; " +
+                    "server=localhost; Trusted_Connection=yes; " +
+                    "database=AES; Connection timeout=30";
+
+
+                using (var con = new SqlConnection(sqlPath))
                 {
+                    string query = "INSERT INTO [dbo].[CASES] (TITEL, DESCRIPTION, STATE, CREATEDBY, REQUESTERFULLNAME, REQUESTERUSERNAME, " +
+                        "PHONENR, COMPUTERNAME, SKAPATDEN, ANDRATDEN, DEPARTMENT, ASSIGNE, KATEGORI, CITY) " +
+                        "VALUES (@TITEL, @DESCRIPTION, @STATE, @CREATEDBY, @REQUESTERFULLNAME, @REQUESTERUSERNAME, " +
+                        "@PHONENR, @COMPUTERNAME, @SKAPATDEN, @ANDRATDEN, @DEPARTMENT, @ASSIGNE, @KATEGORI, @CITY); " +
+                        "SELECT CAST(SCOPE_IDENTITY() AS int)";
+                    using (SqlCommand cmd = new SqlCommand(query, con))
+                    {
+                        con.Open();
 
-                    cn.Open();
-                    var cmd = cn.CreateCommand();
-
-
-                    cmd.CommandText = "INSERT INTO CASES (TITEL, DESCRIPTION, STATE, CREATEDBY, REQUESTERFULLNAME, " +
-                            "PHONENR, COMPUTERNAME, TIDBEREKNAD, TIDSLUTFORT, SKAPATDEN, ANDRATDEN" +
-                            "ASSIGNE, DEPARTMENT, KATEGORI) " +
-                           "VALUES (@TITEL, @DESCRIPTION, @STATE, @CREATEDBY, @REQUESTERFULLNAME, " +
-                            "@PHONENR, @COMPUTERNAME, @TIDBEREKNAD, @TIDSLUTFORT, @SKAPATDEN, @ANDRATDEN" +
-                            "@ASSIGNE, @DEPARTMENT, @KATEGORI)";
-
-                    cmd.Parameters.Add("@TITEL", SqlDbType.NVarChar).Value = caset.CaseTitle;
-                    cmd.Parameters.Add("@DESCRIPTION", SqlDbType.Text).Value = caset.CaseDesc;
-                    cmd.Parameters.Add("@STATE", SqlDbType.NVarChar).Value = caset.State;
-                    cmd.Parameters.Add("@CREATEDBY", SqlDbType.NVarChar).Value = caset.CreatedBy;
-                    cmd.Parameters.Add("@REQUESTERFULLNAME", SqlDbType.NVarChar).Value = caset.RequesterName;
-                    cmd.Parameters.Add("@PHONENR", SqlDbType.NVarChar).Value = caset.PhoneNr;
-                    cmd.Parameters.Add("@COMPUTERNAME", SqlDbType.NVarChar).Value = caset.ComputerName;
-                    cmd.Parameters.Add("@TIDEBEREKNAD", SqlDbType.Int).Value = caset.CountTime;
-                    cmd.Parameters.Add("@TIDSLUTFORT", SqlDbType.Int).Value = caset.TotalTime;
-                    cmd.Parameters.Add("@SKAPATDEN", SqlDbType.Timestamp).Value = caset.Created;
-                    cmd.Parameters.Add("@ANDRATDEN", SqlDbType.Timestamp).Value = caset.Changed;
-                    cmd.Parameters.Add("@ASSIGNE", SqlDbType.NVarChar).Value = caset.Assigne;
-                    cmd.Parameters.Add("@DEPARTMENT", SqlDbType.NVarChar).Value = caset.Dep;
-                    cmd.Parameters.Add("@KATEGORI", SqlDbType.NVarChar).Value = caset.Cat;
-                    
-                    var result = cmd.ExecuteNonQuery();
-
-                    //int i = caseStmt.executeUpdate();
-
-                    //if (i > 0)
-                    //{
+                        cmd.Parameters.Add("@TITEL", SqlDbType.NVarChar).Value = caset.CaseTitle;
+                        cmd.Parameters.Add("@DESCRIPTION", SqlDbType.NVarChar).Value = caset.CaseDesc;
+                        cmd.Parameters.Add("@STATE", SqlDbType.NVarChar).Value = caset.State;
+                        cmd.Parameters.Add("@CREATEDBY", SqlDbType.NVarChar).Value = caset.CreatedBy;
+                        cmd.Parameters.Add("@REQUESTERFULLNAME", SqlDbType.NVarChar).Value = caset.RequesterName;
+                        cmd.Parameters.Add("@REQUESTERUSERNAME", SqlDbType.NVarChar).Value = caset.ReqUserName;
+                        cmd.Parameters.Add("@PHONENR", SqlDbType.NVarChar).Value = caset.PhoneNr;
+                        cmd.Parameters.Add("@COMPUTERNAME", SqlDbType.NVarChar).Value = caset.ComputerName;
+                        cmd.Parameters.Add("@SKAPATDEN", SqlDbType.DateTime).Value = caset.Created;
+                        cmd.Parameters.Add("@ANDRATDEN", SqlDbType.DateTime).Value = caset.Changed;
+                        cmd.Parameters.Add("@DEPARTMENT", SqlDbType.NVarChar).Value = caset.Dep;
+                        cmd.Parameters.Add("@ASSIGNE", SqlDbType.NVarChar).Value = caset.Assigne;
+                        cmd.Parameters.Add("@KATEGORI", SqlDbType.NVarChar).Value = caset.Cat;
+                        cmd.Parameters.Add("@CITY", SqlDbType.NVarChar).Value = caset.City;
 
 
-                        if (!caset.Comments.ToString().Equals(""))
+                        int i = cmd.ExecuteNonQuery();
+
+                        GetPKID = (int)cmd.ExecuteScalar();
+
+                        if (i > 0)
                         {
-                            cmd = cn.CreateCommand();
-
-                            cmd.CommandText = "INSERT INTO CASE_COMMENTS(COMMENTS, Timed, CASE_ID) VALUES (@COMMENTS, @TIMED, LAST_INSERT_ID())";
-                            cmd.Parameters.Add("@COMMENTS", SqlDbType.Text).Value = caset.Comments;
-                            cmd.Parameters.Add("@TIMED", SqlDbType.Timestamp).Value = caset.Changed;
 
 
-                            cmd.ExecuteNonQuery();
+                            if (!string.IsNullOrEmpty(caset.Solution))
+                            {
+                                query = "INSERT INTO [dbo].[SOLTUIONS] (SOLUTION, TIMED, CASE_ID_FK) VALUES (@SOLUTION, @TIMED, @CASE_ID_FK)";
+                                using (SqlCommand solutionCmd = new SqlCommand(query, con))
+                                {
+                                    solutionCmd.Parameters.Add("@SOLUTION", SqlDbType.NVarChar).Value = caset.Solution;
+                                    solutionCmd.Parameters.Add("@TIMED", SqlDbType.DateTime).Value = caset.Created;
+                                    solutionCmd.Parameters.Add("@CASE_ID_FK", SqlDbType.Int).Value = GetPKID;
+
+
+                                    int inserted = solutionCmd.ExecuteNonQuery();
+                                    if (inserted > 0)
+                                    {
+                                        succes = true;
+                                    }
+                                    else
+                                    {
+                                        succes = false;
+                                    } //End inner if
+                                }//End using solution insert statement
+                            }//End inner if
+                           
 
                             succes = true;
+                        }//End outer if
 
-                        }
-                        else
-                        {
-                            succes = false;
-                        }
+                    }//End outer using case statement
 
-                        //succes = true;
-                    //}
-                }
-                catch (SqlException sqlEx)
-                {
-                    throw new CustomSqlException("There was an error connecting to the database\n", sqlEx);
-                }
-                catch (InvalidCastException castExc)
-                {
-                    throw new CustomSqlException("There was an error casting to database datatypes\n", castExc);
-                }
+                }//End Outer ouer using connection statement
             }
-        }
-        catch (Exception e)
-        {
-            throw new Exception("There was an error creating the case:\n" + e.Message);
-            
-        }
-        finally
-        {
-            if (cn != null)
+            catch (SqlException sqlEx)
             {
-                cn.Close();
+                throw new CustomSqlException("There was an error connecting to the database\n", sqlEx);
             }
+            catch (InvalidCastException castExc)
+            {
+                throw new CustomSqlException("There was an error casting to database datatypes\n", castExc);
+            }
+
+            finally
+            {
+                if (cn != null)
+                {
+                    cn.Close();
+                    
+                }
+
+            }
+
+            return succes;
             
-        }
-        
-        return succes;
-    
-    }//End metod addCase
+
+        }//End metod addCase
 
         public List<Case> loadFromDatabase()
         {
-            string sqlPath = @"Data Source=WIN-1UG6IV73N5H;Initial Catalog=AES;Persist Security Info=True;User ID=sa;Password=aik71111";
+            a_List = new List<Case>();
+            string sqlPath = "User ID=sa; Password=aik71111; " +
+                "server=localhost; Trusted_Connection=yes; " +
+                "database=AES; Connection timeout=30";
             
 
 
             using(var con = new SqlConnection(sqlPath))
             {
-                string query = "select CASES_ID as \"CaseID\", TITEL as \"Titel\", DESCRIPTION as \"Description\", SKAPATDEN as \"Created\", ANDRATDEN as \"Changed\", STATUS as \"Status\", ASSIGNE as \"Assigned\" from AES.CASES where STATUS='Opened'";
-                    var cmd = new SqlCommand(query, con);
-                    cmd.CommandType = CommandType.Text;
-                    con.Open();
+                string query = "SELECT * FROM CASES";
+                var cmd = new SqlCommand(query, con);
+                cmd.CommandType = CommandType.Text;
+                con.Open();
                 
-                    using(SqlDataReader objReader = cmd.ExecuteReader())
+                using(SqlDataReader objReader = cmd.ExecuteReader())
+                {
+                        if(objReader.HasRows)
                     {
-                         if(objReader.HasRows)
+                        while(objReader.Read())
                         {
-                            while(objReader.Read())
-                            {
-                                var c = new Case();
-                                c.CaseID = Convert.ToInt32(objReader["CASE_ID"]);
-                                c.CaseTitle = objReader["TITEL"].ToString();
-                                c.CaseDesc = objReader["DESCRIPTION"].ToString();
-                                c.Created = Convert.ToDateTime(objReader["SKAPATDEN"]);
-                                c.Changed = Convert.ToDateTime(objReader["ANDRATDEN"]);
-                                c.State = objReader["STATE"].ToString();
-                                c.Assigne = (Personal)objReader["ASSIGNE"];
+                            var c = new Case();
+                            c.CaseID = Convert.ToInt32(objReader["CASE_ID"]);
+                            c.CaseTitle = objReader["TITEL"].ToString();
+                            c.CaseDesc = objReader["DESCRIPTION"].ToString();
+                            c.Created = Convert.ToDateTime(objReader["SKAPATDEN"]);
+                            c.Changed = Convert.ToDateTime(objReader["ANDRATDEN"]);
+                            c.State = objReader["STATE"].ToString();
+                            c.Assigne = objReader["ASSIGNE"].ToString();
+                            c.CreatedBy = objReader["CREATEDBY"].ToString();
+                            
 
-                                a_List.Add(c);
+                            a_List.Add(c);
 
-                            }
-                    }
-                }     
-            }
+                        }//End while
+                    }//End if
+                }//End inner using     
+            }//End outer using
 
             return a_List;
 
-          
-            
+        }
+
+        public Case LoadCase(int caseId)
+        {
+            Case c = new Case();
+
+            string sqlPath = "User ID=sa; Password=aik71111; " +
+                "server=localhost; Trusted_Connection=yes; " +
+                "database=AES; Connection timeout=30";
+            try
+            {
+                using (var con = new SqlConnection(sqlPath))
+                {
+                    string query = "SELECT * FROM CASES WHERE CASE_ID = '"+caseId+"'";
+                    var cmd = new SqlCommand(query, con);
+                    cmd.CommandType = CommandType.Text;
+                    con.Open();
+
+                    using (SqlDataReader objReader = cmd.ExecuteReader())
+                    {
+                        if (objReader.HasRows)
+                        {
+                            while (objReader.Read())
+                            {
+                                c.CaseID = Convert.ToInt32(objReader["CASE_ID"]);
+                                c.CaseTitle = objReader["TITEL"].ToString();
+                                c.CaseDesc = objReader["DESCRIPTION"].ToString();
+                                c.State = objReader["STATE"].ToString();
+                                c.CreatedBy = objReader["CREATEDBY"].ToString();
+                                c.RequesterName = objReader["REQUESTERFULLNAME"].ToString();
+                                c.ReqUserName = objReader["REQUESTERUSERNAME"].ToString();
+                                c.PhoneNr = objReader["PHONENR"].ToString();
+                                c.ComputerName = objReader["COMPUTERNAME"].ToString();
+                                c.Created = Convert.ToDateTime(objReader["SKAPATDEN"]);
+                                c.Changed = Convert.ToDateTime(objReader["ANDRATDEN"]);
+                                c.Assigne = objReader["ASSIGNE"].ToString();
+                                c.Dep = objReader["DEPARTMENT"].ToString();
+                                c.Cat = objReader["KATEGORI"].ToString();
+                                c.City = objReader["CITY"].ToString();
+
+                            }
+                        }
+                    }//End inner using
+
+                    query = "SELECT SOLUTION FROM SOLUTIONS " +
+                        "WHERE SOLUTIONS.CASE_ID_FK = '" + caseId + "'";
+                    cmd = new SqlCommand(query, con);
+                    using (SqlDataReader solutionReader = cmd.ExecuteReader())
+                    {
+                        if (solutionReader.HasRows)
+                        {
+                            while (solutionReader.Read())
+                            {
+                                c.Solution = solutionReader["SOLUTION"].ToString();
+                            }
+                        }
+                    }
+
+                }//End outer using
+
+                
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+
+            return c;
 
         }
-    
-    //public bool updateCase(Case caset)
-    //{
-    //    bool succes = false;
-    //    String tempstring;
-    //    Connection cn = null;
-    //    String DBURL = "jdbc:mysql://localhost:3306/AES?" +
-    //    "user=root&password=aik71111";
-    //    Timestamp sqlStartDate = new Timestamp(caset.getSkapad().getTime());
-    //    Timestamp sqlAndradDate = new Timestamp(caset.getAndrad().getTime());
 
-        
-    //    try
-    //    {
-    //        Class.forName("com.mysql.jdbc.Driver");
-    //        cn = DriverManager.getConnection(DBURL);
+        public bool updateCase(Case caset)
+        {
+            bool succes = false;
+            SqlConnection cn = null;
             
-    //        if (cn == null)
-    //        {
-    //            throw new SQLException("Uppkoppling mot databas saknas");
-    //        }
-            
-    //        PreparedStatement caseStmt = cn.prepareStatement("update CASES set TITEL = ?, "+
-    //                "DESCRIPTION = ?,ANDRATDEN = ?, STATUS = ?, PHONENR = ?, COMPUTERNAME = ?, " +
-    //                "TIDBEREKNAD = ?, ASSIGNE = ?, DEPARTMENT = ?, TIDSLUTFORT = ?, KATEGORI = ? " +
-    //                "where CASES_ID= '"+caset.getId()+"'");
-                        
-            
-    //        caseStmt.setString(1, caset.getTitel());
-    //        caseStmt.setString(2, caset.getCaseDesc());
-    //        caseStmt.setTimestamp(3, sqlAndradDate);
-    //        caseStmt.setString(4, caset.getStatus());
-    //        caseStmt.setString(5, caset.getPhoneNR());
-    //        caseStmt.setString(6, caset.getCompName());
-    //        caseStmt.setInt(7, caset.getBeraknadTid());
-    //        caseStmt.setString(8, caset.getTilldeladTill());
-    //        caseStmt.setString(9, caset.getAvdelning());
-    //        caseStmt.setInt(10, caset.getTidsAtgang());
-    //        caseStmt.setString(11, caset.getKategori());
-          
-            
-            
-    //        int i = caseStmt.executeUpdate();
-    //        caseStmt.execute();
-            
-    //        if (i > 0 )
-    //        {
-    //            tempstring = caset.getComments();
-    //            String empty = "";
-                
-    //            if (tempstring != null && !tempstring.equals(empty))
-    //            {
-                   
-    //                PreparedStatement commentStmt = cn.prepareStatement("INSERT INTO CASE_COMMENTS(COMMENTS, Timed, CASE_ID)" + "VALUES (?, ?, ?)");
-    //                commentStmt.setString(1, caset.getComments());
-    //                commentStmt.setTimestamp(2, sqlAndradDate);
-    //                commentStmt.setInt(3, caset.getId());
+
+            try
+            {
+                string sqlPath = "User ID=sa; Password=aik71111; " +
+                    "server=localhost; Trusted_Connection=yes; " +
+                    "database=AES; Connection timeout=30";
 
 
-    //                int x = commentStmt.executeUpdate();
-    //                if (x > 0)
-    //                {
-    //                    succes = true;
-    //                } //End inner, inner if, verifying comments insert success
+                using (var con = new SqlConnection(sqlPath))
+                {
+                    string query = "UPDATE [dbo].[CASES] SET TITEL=@TITEL, DESCRIPTION=@DESCRIPTION, STATE=@STATE, " +
+                        "REQUESTERFULLNAME=@REQUESTERFULLNAME, REQUESTERUSERNAME=@REQUESTERUSERNAME, " +
+                        "PHONENR=@PHONENR, COMPUTERNAME=@COMPUTERNAME, ANDRATDEN=@ANDRATDEN, DEPARTMENT=@DEPARTMENT, " +
+                        "ASSIGNE=@ASSIGNE, KATEGORI=@KATEGORI, CITY=@CITY " +
+                        "WHERE CASE_ID = '" +caset.CaseID+ "'";
+                    using (SqlCommand cmd = new SqlCommand(query, con))
+                    {
+                        con.Open();
 
-    //            }//End inner if, runningt comments insert statement
-                
-    //            if(caset.getSolution() != null && !caset.getSolution().isEmpty())
-    //            {
-    //                PreparedStatement solutionStmt = cn.prepareStatement("INSERT INTO SOLUTIONS(SOLUTION, Timed, CASE_ID)" + "VALUES(?, ?, ?)");
-    //                solutionStmt.setString(1, caset.getSolution());
-    //                solutionStmt.setTimestamp(2, sqlAndradDate);
-    //                solutionStmt.setInt(3, caset.getId());
-                    
-                    
-    //            }
-                
-                
-    //            succes = true;
-    //        }//End outer if verifyt case update
-            
-            
-    //    } catch (ClassNotFoundException classE)
-    //    {
-    //        throw new SQLException("Problem med db:" + classE.getMessage());
-    //    }
-    //    catch(NullPointerException nullE)
-    //    {
-    //        throw new NullPointerException("Problem " + nullE.getMessage());
-    //    }
-                
-        
-    //    finally
-    //    {
-    //        if (cn != null)
-    //            cn.close();
-    //    }
-        
-    //    return  succes;
-        
-    //} //End method updateCase
+                        cmd.Parameters.Add("@TITEL", SqlDbType.NVarChar).Value = caset.CaseTitle;
+                        cmd.Parameters.Add("@DESCRIPTION", SqlDbType.NVarChar).Value = caset.CaseDesc;
+                        cmd.Parameters.Add("@STATE", SqlDbType.NVarChar).Value = caset.State;
+                        cmd.Parameters.Add("@REQUESTERFULLNAME", SqlDbType.NVarChar).Value = caset.RequesterName;
+                        cmd.Parameters.Add("@REQUESTERUSERNAME", SqlDbType.NVarChar).Value = caset.ReqUserName;
+                        cmd.Parameters.Add("@PHONENR", SqlDbType.NVarChar).Value = caset.PhoneNr;
+                        cmd.Parameters.Add("@COMPUTERNAME", SqlDbType.NVarChar).Value = caset.ComputerName;
+                        cmd.Parameters.Add("@ANDRATDEN", SqlDbType.DateTime).Value = caset.Changed;
+                        cmd.Parameters.Add("@DEPARTMENT", SqlDbType.NVarChar).Value = caset.Dep;
+                        cmd.Parameters.Add("@ASSIGNE", SqlDbType.NVarChar).Value = caset.Assigne;
+                        cmd.Parameters.Add("@KATEGORI", SqlDbType.NVarChar).Value = caset.Cat;
+                        cmd.Parameters.Add("@CITY", SqlDbType.NVarChar).Value = caset.City;
+
+
+                        int i = cmd.ExecuteNonQuery();
+
+                        if (i > 0)
+                        {
+
+
+                            if (!string.IsNullOrEmpty(caset.Solution))
+                            {
+                                query = "INSERT INTO [dbo].[SOLTUIONS] (SOLUTION, TIMED, CASE_ID_FK) VALUES (@SOLUTION, @TIMED, @CASE_ID_FK)";
+                                using (SqlCommand solutionCmd = new SqlCommand(query, con))
+                                {
+                                    solutionCmd.Parameters.Add("@SOLUTION", SqlDbType.NVarChar).Value = caset.Solution;
+                                    solutionCmd.Parameters.Add("@TIMED", SqlDbType.DateTime).Value = caset.Changed;
+                                    solutionCmd.Parameters.Add("@CASE_ID_FK", SqlDbType.Int).Value = caset.CaseID;
+
+
+                                   int inserted = solutionCmd.ExecuteNonQuery();
+                                    if (inserted > 0)
+                                    {
+                                        succes = true;
+                                    }
+                                    else
+                                    {
+                                        succes = false;
+                                    } //End inner if
+                                }//End using solution insert statement
+                            } //End if solutions is empty
+                        }//End outer if
+                        else
+                        {
+                            succes = false;
+                        }
+
+                        succes = true;
+                      
+
+                    }//End outer using case statement
+
+                }//End Outer ouer using connection statement
+            }
+            catch (Exception sqlEx)
+            {
+                throw new Exception(sqlEx.Message);
+            }
+
+            finally
+            {
+                if (cn != null)
+                {
+                    cn.Close();
+
+                }
+
+            }
+
+            return succes;
+
+
+        }//End metod addCase
+
+       
     }
 }

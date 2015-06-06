@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -8,20 +9,17 @@ namespace AES
 {
     public class Case
     {
-        private int caseID;
-        private string requester;
-        private Category cat;
 
-        public Category Cat
-        {
-            get { return cat; }
-            set { cat = value; }
-        }
+        
+
+        private int caseID;
+        private string cat;
         private string state;
         private string workDesc;
-        private Personal requesterName;
-        private Personal assigne;
-        private Personal createdBy;
+        private string requesterName;
+        private string reqUserName;
+        private string assigne;
+        private string createdBy;
         private DateTime created;
         private DateTime changed;
         private int countTime;
@@ -32,12 +30,49 @@ namespace AES
         private string comments;
         private string phoneNr;
         private string computerName;
-        private Department dep;
+        private string dep;
+        private string city;
 
-        public Department Dep
+        public string City
+        {
+            get { return city; }
+            set { city = value; }
+        }
+
+        public string RequesterName
+        {
+            get { return requesterName; }
+            set { requesterName = value; }
+        }
+
+        public string CreatedBy
+        {
+            get { return createdBy; }
+            set { createdBy = value; }
+        }
+
+        public string Dep
         {
             get { return dep; }
             set { dep = value; }
+        }
+
+        public string Assigne
+        {
+            get { return assigne; }
+            set { assigne = value; }
+        }
+
+        public string ReqUserName
+        {
+            get { return reqUserName; }
+            set { reqUserName = value; }
+        }
+
+        public string Cat
+        {
+            get { return cat; }
+            set { cat = value; }
         }
 
         public string ComputerName
@@ -46,11 +81,7 @@ namespace AES
             set { computerName = value; }
         }
 
-        public Personal Assigne
-        {
-            get { return assigne; }
-            set { assigne = value; }
-        }
+
 
         public string PhoneNr
         {
@@ -58,17 +89,7 @@ namespace AES
             set { phoneNr = value; }
         }
 
-        public Personal RequesterName
-        {
-            get { return requesterName; }
-            set { requesterName = value; }
-        }
-
-        public Personal CreatedBy
-        {
-            get { return createdBy; }
-            set { createdBy = value; }
-        }
+       
 
         public string Comments
         {
@@ -102,11 +123,7 @@ namespace AES
             set { created = value; }
         }
 
-        public string Requester
-        {
-            get { return requester; }
-            set { requester = value; }
-        }
+
 
         public DateTime Changed
         {
