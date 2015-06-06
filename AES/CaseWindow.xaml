@@ -1,9 +1,9 @@
 ﻿<Window x:Class="AES.CaseWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Title="Case Propertie Window" Height="926.5" Width="1005" Background="#FFAFAEAE">
+        Title="Case Propertie Window" Height="827.5" Width="1005" Background="#FFAFAEAE" ResizeMode="NoResize">
 
-    <Grid x:Name="gridCaseProp" Background="#FFF1F4EB" Margin="0,0,0,82">
+    <Grid x:Name="gridCaseProp" Background="#FFF1F4EB" Margin="0,0,0,0">
         <Border BorderBrush="Black" BorderThickness="1" CornerRadius="6" Margin="0,0,0,0"/>
         <TextBox x:Name="txtBoxCaseID" HorizontalAlignment="Left" Height="20" Margin="63,13,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="120" IsReadOnly="True" TextAlignment="Right" Background="#FFD5D4D4"/>
 
@@ -35,9 +35,14 @@
         <TextBox x:Name="txtBoxTitel" HorizontalAlignment="Left" Height="22" Margin="61,278,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="571"/>
         <Label x:Name="lblCaseDesc" Content="Case description:" HorizontalAlignment="Left" Height="24" Margin="21,305,0,0" VerticalAlignment="Top"/>
         <GroupBox Header="Worktask" HorizontalAlignment="Left" Height="376" Margin="653,243,0,0" VerticalAlignment="Top" Width="332" BorderThickness="2"/>
-        <DataGrid x:Name="dgwTask" HorizontalAlignment="Left" Height="267" Margin="664,263,0,0" VerticalAlignment="Top" Width="309"/>
-        <Button x:Name="btnDelTask" Content="Delete Task" HorizontalAlignment="Left" Height="24" Margin="890,581,0,0" VerticalAlignment="Top" Width="83"/>
-        <Button x:Name="btnAddTask" Content="Button" HorizontalAlignment="Left" Height="24" Margin="778,581,0,0" VerticalAlignment="Top" Width="83" Click="btnAddTask_Click"/>
+        <DataGrid x:Name="dgwTask" HorizontalAlignment="Left" Height="267" Margin="664,263,0,0" VerticalAlignment="Top" Width="309" AutoGenerateColumns="False" IsReadOnly="True">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Task" Binding="{Binding TaskTodo}" Width="200"/>
+                <DataGridTextColumn Header="Created by" Binding="{Binding CreatedBy}" Width="100" />
+            </DataGrid.Columns>
+        </DataGrid>
+        <Button x:Name="btnDelTask" Content="Delete Task" HorizontalAlignment="Left" Height="24" Margin="890,581,0,0" VerticalAlignment="Top" Width="83" Click="btnDelTask_Click"/>
+        <Button x:Name="btnAddTask" Content="Add Task" HorizontalAlignment="Left" Height="24" Margin="778,581,0,0" VerticalAlignment="Top" Width="83" Click="btnAddTask_Click"/>
         <GroupBox x:Name="grpComments" Header="Comments" HorizontalAlignment="Left" Height="164" Margin="10,624,0,0" VerticalAlignment="Top" Width="364" BorderThickness="2"/>
         <Button x:Name="btnReadComments" Content="Read Comments" HorizontalAlignment="Left" Height="24" Margin="262,752,0,0" VerticalAlignment="Top" Width="98" Click="btnReadComments_Click"/>
         <GroupBox x:Name="grpBoxSolution" Header="Solution" HorizontalAlignment="Left" Height="164" Margin="379,624,0,0" VerticalAlignment="Top" Width="269" BorderThickness="2"/>

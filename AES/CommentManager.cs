@@ -1,4 +1,12 @@
-﻿using System;
+﻿/******************************************
+ *  Projektuppgift C# II Malmö Högskola   *
+ *  Ärendehanteringssystem                *
+ *  Skapad av Patrik Wahlqvist            *
+ *  Slutfört 2015-06-06                   *
+ ******************************************
+ */
+
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
@@ -64,7 +72,7 @@ namespace AES
 
             return succes;
 
-        } //End method addCase
+        } //End method addComment
 
 
         public bool UpdateCaseComment(Comment com)
@@ -157,7 +165,7 @@ namespace AES
 
             return a_List;
 
-        }
+        }// End method loadComments
 
 
     }//End class

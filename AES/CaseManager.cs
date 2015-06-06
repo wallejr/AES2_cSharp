@@ -1,4 +1,12 @@
-﻿using System;
+﻿/******************************************
+ *  Projektuppgift C# II Malmö Högskola   *
+ *  Ärendehanteringssystem                *
+ *  Skapad av Patrik Wahlqvist            *
+ *  Slutfört 2015-06-06                   *
+ ******************************************
+ */
+
+using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Linq;
@@ -124,7 +132,7 @@ namespace AES
 
             using(var con = new SqlConnection(sqlPath))
             {
-                string query = "SELECT * FROM CASES";
+                string query = "SELECT * FROM CASES WHERE STATE = '" + "Open" + "'";
                 var cmd = new SqlCommand(query, con);
                 cmd.CommandType = CommandType.Text;
                 con.Open();
@@ -155,7 +163,7 @@ namespace AES
 
             return a_List;
 
-        }
+        }//End method loadFromdatabase
 
         public Case LoadCase(int caseId)
         {
@@ -272,7 +280,7 @@ namespace AES
 
                             if (!string.IsNullOrEmpty(caset.Solution))
                             {
-                                query = "INSERT INTO [dbo].[SOLTUIONS] (SOLUTION, TIMED, CASE_ID_FK) VALUES (@SOLUTION, @TIMED, @CASE_ID_FK)";
+                                query = "INSERT INTO [dbo].[SOLUTIONS] (SOLUTION, TIMED, CASE_ID_FK) VALUES (@SOLUTION, @TIMED, @CASE_ID_FK)";
                                 using (SqlCommand solutionCmd = new SqlCommand(query, con))
                                 {
                                     solutionCmd.Parameters.Add("@SOLUTION", SqlDbType.NVarChar).Value = caset.Solution;
@@ -323,6 +331,182 @@ namespace AES
 
 
         }//End metod addCase
+
+        public List<Case> SearchResultStatus(string status)
+        {
+            a_List = new List<Case>();
+            string sqlPath = "User ID=sa; Password=aik71111; " +
+                "server=localhost; Trusted_Connection=yes; " +
+                "database=AES; Connection timeout=30";
+
+
+
+            using (var con = new SqlConnection(sqlPath))
+            {
+                string query = "SELECT * FROM CASES WHERE STATE = '"+status+"'";
+                var cmd = new SqlCommand(query, con);
+                cmd.CommandType = CommandType.Text;
+                con.Open();
+
+                using (SqlDataReader objReader = cmd.ExecuteReader())
+                {
+                    if (objReader.HasRows)
+                    {
+                        while (objReader.Read())
+                        {
+                            var c = new Case();
+                            c.CaseID = Convert.ToInt32(objReader["CASE_ID"]);
+                            c.CaseTitle = objReader["TITEL"].ToString();
+                            c.CaseDesc = objReader["DESCRIPTION"].ToString();
+                            c.Created = Convert.ToDateTime(objReader["SKAPATDEN"]);
+                            c.Changed = Convert.ToDateTime(objReader["ANDRATDEN"]);
+                            c.State = objReader["STATE"].ToString();
+                            c.Assigne = objReader["ASSIGNE"].ToString();
+                            c.CreatedBy = objReader["CREATEDBY"].ToString();
+
+
+                            a_List.Add(c);
+
+                        }//End while
+                    }//End if
+                }//End inner using     
+            }//End outer using
+
+            return a_List;
+
+        }//End method SerchResultStatus
+
+        public List<Case> SearchResultCategory(string category)
+        {
+            a_List = new List<Case>();
+            string sqlPath = "User ID=sa; Password=aik71111; " +
+                "server=localhost; Trusted_Connection=yes; " +
+                "database=AES; Connection timeout=30";
+
+
+
+            using (var con = new SqlConnection(sqlPath))
+            {
+                string query = "SELECT * FROM CASES WHERE KATEGORI='"+category+"'";
+                var cmd = new SqlCommand(query, con);
+                cmd.CommandType = CommandType.Text;
+                con.Open();
+
+                using (SqlDataReader objReader = cmd.ExecuteReader())
+                {
+                    if (objReader.HasRows)
+                    {
+                        while (objReader.Read())
+                        {
+                            var c = new Case();
+                            c.CaseID = Convert.ToInt32(objReader["CASE_ID"]);
+                            c.CaseTitle = objReader["TITEL"].ToString();
+                            c.CaseDesc = objReader["DESCRIPTION"].ToString();
+                            c.Created = Convert.ToDateTime(objReader["SKAPATDEN"]);
+                            c.Changed = Convert.ToDateTime(objReader["ANDRATDEN"]);
+                            c.State = objReader["STATE"].ToString();
+                            c.Assigne = objReader["ASSIGNE"].ToString();
+                            c.CreatedBy = objReader["CREATEDBY"].ToString();
+
+
+                            a_List.Add(c);
+
+                        }//End while
+                    }//End if
+                }//End inner using     
+            }//End outer using
+
+            return a_List;
+
+        }//End method SearchResultCategory
+
+        public List<Case> SearchResultCaseID(int caseID)
+        {
+            a_List = new List<Case>();
+            string sqlPath = "User ID=sa; Password=aik71111; " +
+                "server=localhost; Trusted_Connection=yes; " +
+                "database=AES; Connection timeout=30";
+
+
+
+            using (var con = new SqlConnection(sqlPath))
+            {
+                string query = "SELECT * FROM CASES WHERE CASE_ID = '"+caseID+"'";
+                var cmd = new SqlCommand(query, con);
+                cmd.CommandType = CommandType.Text;
+                con.Open();
+
+                using (SqlDataReader objReader = cmd.ExecuteReader())
+                {
+                    if (objReader.HasRows)
+                    {
+                        while (objReader.Read())
+                        {
+                            var c = new Case();
+                            c.CaseID = Convert.ToInt32(objReader["CASE_ID"]);
+                            c.CaseTitle = objReader["TITEL"].ToString();
+                            c.CaseDesc = objReader["DESCRIPTION"].ToString();
+                            c.Created = Convert.ToDateTime(objReader["SKAPATDEN"]);
+                            c.Changed = Convert.ToDateTime(objReader["ANDRATDEN"]);
+                            c.State = objReader["STATE"].ToString();
+                            c.Assigne = objReader["ASSIGNE"].ToString();
+                            c.CreatedBy = objReader["CREATEDBY"].ToString();
+
+
+                            a_List.Add(c);
+
+                        }//End while
+                    }//End if
+                }//End inner using     
+            }//End outer using
+
+            return a_List;
+
+        }//End method loadFromdatabase
+
+        public List<Case> SearchResultAssigne(string assigne)
+        {
+            a_List = new List<Case>();
+            string sqlPath = "User ID=sa; Password=aik71111; " +
+                "server=localhost; Trusted_Connection=yes; " +
+                "database=AES; Connection timeout=30";
+
+
+
+            using (var con = new SqlConnection(sqlPath))
+            {
+                string query = "SELECT * FROM CASES WHERE ASSIGNE = '"+assigne+"'";
+                var cmd = new SqlCommand(query, con);
+                cmd.CommandType = CommandType.Text;
+                con.Open();
+
+                using (SqlDataReader objReader = cmd.ExecuteReader())
+                {
+                    if (objReader.HasRows)
+                    {
+                        while (objReader.Read())
+                        {
+                            var c = new Case();
+                            c.CaseID = Convert.ToInt32(objReader["CASE_ID"]);
+                            c.CaseTitle = objReader["TITEL"].ToString();
+                            c.CaseDesc = objReader["DESCRIPTION"].ToString();
+                            c.Created = Convert.ToDateTime(objReader["SKAPATDEN"]);
+                            c.Changed = Convert.ToDateTime(objReader["ANDRATDEN"]);
+                            c.State = objReader["STATE"].ToString();
+                            c.Assigne = objReader["ASSIGNE"].ToString();
+                            c.CreatedBy = objReader["CREATEDBY"].ToString();
+
+
+                            a_List.Add(c);
+
+                        }//End while
+                    }//End if
+                }//End inner using     
+            }//End outer using
+
+            return a_List;
+
+        }//End method SearchResultAssigne
 
        
     }

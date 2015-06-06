@@ -1,4 +1,12 @@
-﻿using System;
+﻿/******************************************
+ *  Projektuppgift C# II Malmö Högskola   *
+ *  Ärendehanteringssystem                *
+ *  Skapad av Patrik Wahlqvist            *
+ *  Slutfört 2015-06-06                   *
+ ******************************************
+ */
+
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Globalization;
@@ -25,6 +33,7 @@ namespace AES
         CategoryManager catm = new CategoryManager();
         PersonalManager pm = new PersonalManager();
         CommentManager ComMan = new CommentManager();
+        WorkTaskManager wtm = new WorkTaskManager();
 
         public CaseWindow()
         {
@@ -269,58 +278,68 @@ namespace AES
 
         public void openCase(int id)
         {
-            Case c = new Case();
-            c = cm.LoadCase(id);
-
-            txtBoxCaseID.Text = c.CaseID.ToString();
-            txtBoxCreated.Text = c.Created.ToString();
-            txtBoxChanged.Text = c.Changed.ToString();
-            comboBoxState.SelectedItem = c.State;
-            comboBoxCreateBy.SelectedItem = c.CreatedBy;
-            comboBoxAssigne.SelectedItem = c.Assigne;
-            comboBoxCategory.SelectedItem = c.Cat;
-            txtBoxFullName.Text = c.RequesterName;
-            txtBoxUserName.Text = c.ReqUserName;
-            txtBoxPhone.Text = c.PhoneNr;
-            comboBoxDepartment.SelectedItem = c.Dep;
-            txtBoxCity.Text = c.City;
-            txtBoxCompName.Text = c.ComputerName;
-            txtBoxTitel.Text = c.CaseTitle;
-            txtBoxCaseDesc.Text = c.CaseDesc;
-            
-            if (!string.IsNullOrEmpty(txtBoxComments.Text) || !string.IsNullOrEmpty(txtBoxSolution.Text))
+            try
             {
-                txtBoxComments.Text = c.Comments;
+                Case c = new Case();
+                c = cm.LoadCase(id);
 
-                if (!string.IsNullOrEmpty(txtBoxSolution.Text))
-                {
-                    txtBoxSolution.Text = c.Solution;
-                }
+                txtBoxCaseID.Text = c.CaseID.ToString();
+                txtBoxCreated.Text = c.Created.ToString();
+                txtBoxChanged.Text = c.Changed.ToString();
+                comboBoxState.SelectedItem = c.State;
+                comboBoxCreateBy.SelectedItem = c.CreatedBy;
+                comboBoxAssigne.SelectedItem = c.Assigne;
+                comboBoxCategory.SelectedItem = c.Cat;
+                txtBoxFullName.Text = c.RequesterName;
+                txtBoxUserName.Text = c.ReqUserName;
+                txtBoxPhone.Text = c.PhoneNr;
+                comboBoxDepartment.SelectedItem = c.Dep;
+                txtBoxCity.Text = c.City;
+                txtBoxCompName.Text = c.ComputerName;
+                txtBoxTitel.Text = c.CaseTitle;
+                txtBoxCaseDesc.Text = c.CaseDesc;
+                txtBoxSolution.Text = c.Solution;
+
+                ShowTaskList(c.CaseID);
             }
-            
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        } //End method openCase
 
+        private void ShowTaskList(int id)
+        {
+            this.dgwTask.ItemsSource = wtm.ShowTaskList(id);
         }
 
         private bool validateSelections()
         {
-            string selectedAssigne = comboBoxAssigne.ToString();
+            string selectedAssigne = comboBoxAssigne.SelectedItem.ToString();
+            string statustemp = comboBoxState.SelectedItem.ToString();
             
 
-            if (comboBoxState.Equals(Status.Assigned) && selectedAssigne.Equals("Not Assigned"))
+            if (statustemp.Equals("Assigned") && selectedAssigne.Equals("Not Assigned"))
             {
                 MessageBox.Show("An assigne must be selected when status Assigned is selected");
                 return false;
             }
-            else if (comboBoxState.Equals(Status.Open) && selectedAssigne.Equals("Not Assigned"))
+            else if (statustemp.Equals("Open") && !selectedAssigne.Equals("Not Assigned"))
             {
                 MessageBox.Show("You can't selected an assigne when selected status i opened");
                 return false;
             }
-            else if (comboBoxState.Equals(Status.Closed) && string.IsNullOrEmpty(txtBoxSolution.Text))
+            else if (statustemp.Equals("Closed") && selectedAssigne.Equals("Not Assigned"))
+            {
+                MessageBox.Show("An assigne must be selected when closing the case");
+                return false;
+            }
+            else if (statustemp.Equals("Closed")  && string.IsNullOrEmpty(txtBoxSolution.Text))
             {
                 MessageBox.Show("You must enter a solution when closing the case");
                 return false;
             }
+            
             else
                 return true;
             
@@ -443,7 +462,24 @@ namespace AES
 
         private void btnAddTask_Click(object sender, RoutedEventArgs e)
         {
-            
+            try
+            {
+                if (!string.IsNullOrEmpty(txtBoxCaseID.Text))
+                {
+                    int id = int.Parse(txtBoxCaseID.Text);
+                    AddTaskWindow atw = new AddTaskWindow(id, comboBoxCreateBy.SelectedItem.ToString());
+                    atw.ShowDialog();
+                    ShowTaskList(id);
+                }
+                else
+                {
+                    MessageBox.Show("You must save the case before adding a task");
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("An error occurered: \n" + ex.Message);
+            }
         }
 
         private void comboBoxCategory_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -458,6 +494,7 @@ namespace AES
                 int id = int.Parse(txtBoxCaseID.Text);
                 CommentsWindow cw = new CommentsWindow(id);
                 cw.ShowDialog();
+                
             }
             catch (Exception ex)
             {
@@ -466,6 +503,32 @@ namespace AES
             
 
 
+        }
+
+        private void btnDelTask_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                int selected = dgwTask.SelectedIndex;
+                if (selected < 0)
+                {
+                    MessageBox.Show("You must select a task in the list to delete");
+                }
+                else
+                {
+                    if (wtm.DelTask(((WorkTask)dgwTask.SelectedItem).TaskTodo))
+                    {
+                        ShowTaskList(int.Parse(txtBoxCaseID.Text));
+
+                    }
+                    
+                }
+                
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("An error occured \n" + ex.Message);
+            }
         }
 
     }

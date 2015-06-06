@@ -1,4 +1,12 @@
-﻿using System;
+﻿/******************************************
+ *  Projektuppgift C# II Malmö Högskola   *
+ *  Ärendehanteringssystem                *
+ *  Skapad av Patrik Wahlqvist            *
+ *  Slutfört 2015-06-06                   *
+ ******************************************
+ */
+
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Globalization;
@@ -22,6 +30,9 @@ namespace AES
     /// </summary>
     public partial class MainWindow : Window
     {
+        /// <summary>
+        /// Private instance variable declaring a referance to CaseManager object
+        /// </summary>
         private CaseManager cm = new CaseManager();
         
 
@@ -33,12 +44,23 @@ namespace AES
             CultureInfo.CreateSpecificCulture("en-US");
         }
 
+        /// <summary>
+        /// Method that will load all cases with status Open in the list.
+        /// Calling method loadFromDatabase in the casemanager class
+        /// </summary>
         private void LoadCases()
         {
-            cm.loadFromDatabase();
-            this.DgCases.ItemsSource = cm.a_List;
+
+            this.DgCases.ItemsSource = cm.loadFromDatabase();
         }
 
+        /// <summary>
+        /// Method that will respond when the user click the new case button.
+        /// The method will declare an object of the window class CaseWindow
+        /// Open it as a dialog and when the dialog is closed it will reload the list of open cases
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void btnNew_Click(object sender, RoutedEventArgs e)
         {
             CaseWindow cw = new CaseWindow();
@@ -46,6 +68,14 @@ namespace AES
             LoadCases();
         }
 
+        /// <summary>
+        /// Method that will open a cases based on user choice in the list.
+        /// Then it will create an object of class Case, sending the selected case caseid
+        /// and display CaseWindow as a dialog. When the dialog is closed the list of opened cases will refreshed
+        /// with the method LoadCases as above
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void btnOpenCase_Click(object sender, RoutedEventArgs e)
         {
             try
@@ -63,8 +93,9 @@ namespace AES
                     cw.comboBoxCreateBy.IsReadOnly = true;
                     
                     cw.ShowDialog();
+                    LoadCases();
                 }
-                LoadCases();
+                
             }
             catch(Exception ex)
             {
@@ -73,6 +104,23 @@ namespace AES
 
 
             
+        }
+
+        /// <summary>
+        /// Method that will respond when the user hits the Search cases button.
+        /// The method will
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            SearchWindow sw = new SearchWindow();
+            sw.Show();
+        }
+
+        private void btnExit_Click(object sender, RoutedEventArgs e)
+        {
+            Application.Current.Shutdown();
         }//ENd method
     }
 }
