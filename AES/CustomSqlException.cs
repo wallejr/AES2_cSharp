@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 
 namespace AES
 {
+    /// <summary>
+    /// A custom selfcreated Exception for Sql exception, inherits from the Exception class
+    /// </summary>
     public class CustomSqlException : Exception
     {
         public CustomSqlException()

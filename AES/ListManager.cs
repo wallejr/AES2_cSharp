@@ -1,4 +1,12 @@
-﻿using System;
+﻿/******************************************
+ *  Projektuppgift C# II Malmö Högskola   *
+ *  Ärendehanteringssystem                *
+ *  Skapad av Patrik Wahlqvist            *
+ *  Slutfört 2015-06-06                   *
+ ******************************************
+ */
+
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity.Core.Objects;
@@ -9,6 +17,10 @@ using System.Threading.Tasks;
 
 namespace AES
 {
+    /// <summary>
+    /// The superklass Listmanagar will hold generic listmethods and implements the interface Listmanager
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
     public class ListManager<T> : IListManager<T>
     {
 

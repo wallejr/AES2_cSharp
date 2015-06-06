@@ -1,4 +1,12 @@
-﻿using System;
+﻿/******************************************
+ *  Projektuppgift C# II Malmö Högskola   *
+ *  Ärendehanteringssystem                *
+ *  Skapad av Patrik Wahlqvist            *
+ *  Slutfört 2015-06-06                   *
+ ******************************************
+ */
+
+using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
@@ -7,10 +15,11 @@ using System.Threading.Tasks;
 
 namespace AES
 {
+    /// <summary>
+    /// Case method that will handle the information about each case before saved to the database
+    /// </summary>
     public class Case
     {
-
-        
 
         private int caseID;
         private string cat;

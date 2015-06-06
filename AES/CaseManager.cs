@@ -16,10 +16,21 @@ using System.Data;
 
 namespace AES
 {
+    /// <summary>
+    /// Class that will handle the case communiation between list and database
+    /// The class is a sublass of the Listmanager superclass
+    /// </summary>
     public class CaseManager : ListManager<Case>
     {
         public int GetPKID { get; set; }
 
+        /// <summary>
+        /// Method that will add a case to the database, recieves a reference to a Case object as input from 
+        /// the caller.
+        /// The method will check if there is a solution written and then store it in the solution table f the database
+        /// </summary>
+        /// <param name="caset"></param>
+        /// <returns></returns>
         public bool addCase(Case caset)
         {
             bool succes = false;
@@ -27,7 +38,7 @@ namespace AES
 
             try
             {
-                string sqlPath = "User ID=sa; Password=aik71111; " +
+                string sqlPath = "User ID=sa; Password=***********; " +
                     "server=localhost; Trusted_Connection=yes; " +
                     "database=AES; Connection timeout=30";
 
@@ -121,10 +132,15 @@ namespace AES
 
         }//End metod addCase
 
+        /// <summary>
+        /// Method that will load cases from the database that has status Open and save
+        /// it in a list of the generict listmanager class
+        /// </summary>
+        /// <returns></returns>
         public List<Case> loadFromDatabase()
         {
             a_List = new List<Case>();
-            string sqlPath = "User ID=sa; Password=aik71111; " +
+            string sqlPath = "User ID=sa; Password=***********; " +
                 "server=localhost; Trusted_Connection=yes; " +
                 "database=AES; Connection timeout=30";
             
@@ -165,11 +181,17 @@ namespace AES
 
         }//End method loadFromdatabase
 
+        /// <summary>
+        /// Method that will be called to load and fill caseinformation from a list to a casewindow
+        /// The method will also check if there is any solution present and fill the casewindow with such information if any
+        /// </summary>
+        /// <param name="caseId"></param>
+        /// <returns></returns>
         public Case LoadCase(int caseId)
         {
             Case c = new Case();
 
-            string sqlPath = "User ID=sa; Password=aik71111; " +
+            string sqlPath = "User ID=sa; Password=***********; " +
                 "server=localhost; Trusted_Connection=yes; " +
                 "database=AES; Connection timeout=30";
             try
@@ -234,6 +256,13 @@ namespace AES
 
         }
 
+        /// <summary>
+        /// Method that will be called from the casewindow if there is an existent case being saved.
+        /// The method will verify if there is any solution written y the user and  if so, a solution will
+        /// be inserted in the solutions table with the caseid as foreign key
+        /// </summary>
+        /// <param name="caset"></param>
+        /// <returns></returns>
         public bool updateCase(Case caset)
         {
             bool succes = false;
@@ -242,7 +271,7 @@ namespace AES
 
             try
             {
-                string sqlPath = "User ID=sa; Password=aik71111; " +
+                string sqlPath = "User ID=sa; Password=***********; " +
                     "server=localhost; Trusted_Connection=yes; " +
                     "database=AES; Connection timeout=30";
 
@@ -332,10 +361,15 @@ namespace AES
 
         }//End metod addCase
 
+        /// <summary>
+        /// Methods below will load cases the be listed depending on the searchcriteria recieved
+        /// </summary>
+        /// <param name="status"></param>
+        /// <returns></returns>
         public List<Case> SearchResultStatus(string status)
         {
             a_List = new List<Case>();
-            string sqlPath = "User ID=sa; Password=aik71111; " +
+            string sqlPath = "User ID=sa; Password=***********; " +
                 "server=localhost; Trusted_Connection=yes; " +
                 "database=AES; Connection timeout=30";
 
@@ -379,7 +413,7 @@ namespace AES
         public List<Case> SearchResultCategory(string category)
         {
             a_List = new List<Case>();
-            string sqlPath = "User ID=sa; Password=aik71111; " +
+            string sqlPath = "User ID=sa; Password=***********; " +
                 "server=localhost; Trusted_Connection=yes; " +
                 "database=AES; Connection timeout=30";
 
@@ -423,7 +457,7 @@ namespace AES
         public List<Case> SearchResultCaseID(int caseID)
         {
             a_List = new List<Case>();
-            string sqlPath = "User ID=sa; Password=aik71111; " +
+            string sqlPath = "User ID=sa; Password=***********; " +
                 "server=localhost; Trusted_Connection=yes; " +
                 "database=AES; Connection timeout=30";
 
@@ -467,7 +501,7 @@ namespace AES
         public List<Case> SearchResultAssigne(string assigne)
         {
             a_List = new List<Case>();
-            string sqlPath = "User ID=sa; Password=aik71111; " +
+            string sqlPath = "User ID=sa; Password=***********; " +
                 "server=localhost; Trusted_Connection=yes; " +
                 "database=AES; Connection timeout=30";
 

@@ -36,7 +36,7 @@ namespace AES
 
             try
             {
-                string sqlPath = "User ID=sa; Password=aik71111; " +
+                string sqlPath = "User ID=sa; Password=***********; " +
                     "server=localhost; Trusted_Connection=yes; " +
                     "database=AES; Connection timeout=30";
 
@@ -93,7 +93,7 @@ namespace AES
         public List<WorkTask> ShowTaskList(int caseID)
         {
             a_List = new List<WorkTask>();
-            string sqlPath = "User ID=sa; Password=aik71111; " +
+            string sqlPath = "User ID=sa; Password=***********; " +
                 "server=localhost; Trusted_Connection=yes; " +
                 "database=AES; Connection timeout=30";
 
@@ -143,7 +143,7 @@ namespace AES
 
             try
             {
-                string sqlPath = "User ID=sa; Password=aik71111; " +
+                string sqlPath = "User ID=sa; Password=***********; " +
                     "server=localhost; Trusted_Connection=yes; " +
                     "database=AES; Connection timeout=30";
 

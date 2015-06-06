@@ -1,4 +1,12 @@
-﻿using System;
+﻿/******************************************
+ *  Projektuppgift C# II Malmö Högskola   *
+ *  Ärendehanteringssystem                *
+ *  Skapad av Patrik Wahlqvist            *
+ *  Slutfört 2015-06-06                   *
+ ******************************************
+ */
+
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
@@ -8,6 +16,9 @@ using System.Threading.Tasks;
 
 namespace AES
 {
+    /// <summary>
+    /// Class that will store and handle information about categories object
+    /// </summary>
     public class Category : ListManager<Category>
     {
 

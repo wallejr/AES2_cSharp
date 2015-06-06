@@ -16,9 +16,20 @@ using System.Threading.Tasks;
 
 namespace AES
 {
+    /// <summary>
+    /// Manager class for the Comment class, will handle the comments from the database and store in the list.
+    /// Subclass of the class Listmanager
+    /// </summary>
     class CommentManager : ListManager<Comment>
     {
-
+        /// <summary>
+        /// Method that will add a comment to the database.
+        /// Revieves a reference the the Comment class and an int of caseID.
+        ///The caseId is used to store as foreign key in the database
+        /// </summary>
+        /// <param name="com"></param>
+        /// <param name="caseId"></param>
+        /// <returns></returns>
         public bool AddComment(Comment com, int caseId)
         {
             bool succes = false;
@@ -26,7 +37,7 @@ namespace AES
 
             try
             {
-                string sqlPath = "User ID=sa; Password=aik71111; " +
+                string sqlPath = "User ID=sa; Password=***********; " +
                     "server=localhost; Trusted_Connection=yes; " +
                     "database=AES; Connection timeout=30";
 
@@ -74,7 +85,12 @@ namespace AES
 
         } //End method addComment
 
-
+        /// <summary>
+        /// Method that will be called when case is update with new comment.
+        /// Recives a reference to a Comment object that will be stored in the database
+        /// </summary>
+        /// <param name="com"></param>
+        /// <returns></returns>
         public bool UpdateCaseComment(Comment com)
         {
             bool succes = false;
@@ -83,7 +99,7 @@ namespace AES
 
             try
             {
-                string sqlPath = "User ID=sa; Password=aik71111; " +
+                string sqlPath = "User ID=sa; Password=***********; " +
                     "server=localhost; Trusted_Connection=yes; " +
                     "database=AES; Connection timeout=30";
 
@@ -127,10 +143,17 @@ namespace AES
 
         }//End method
 
+        /// <summary>
+        /// Method that will list all comments related to specific case.
+        /// Depencies is based on the reciev int variabel caseID that will check the foreign key in 
+        /// the comments table
+        /// </summary>
+        /// <param name="caseID"></param>
+        /// <returns></returns>
         public List<Comment> loadComments(int caseID)
         {
             a_List = new List<Comment>();
-            string sqlPath = "User ID=sa; Password=aik71111; " +
+            string sqlPath = "User ID=sa; Password=***********; " +
                 "server=localhost; Trusted_Connection=yes; " +
                 "database=AES; Connection timeout=30";
 
