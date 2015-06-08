@@ -65,6 +65,7 @@
     <Compile Include="AddTaskWindow.xaml.cs">
       <DependentUpon>AddTaskWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="CustomSqlException.cs" />
     <Compile Include="ListSearchWindow.xaml.cs">
       <DependentUpon>ListSearchWindow.xaml</DependentUpon>
     </Compile>
@@ -127,9 +128,7 @@
     <Compile Include="CommentsWindow.xaml.cs">
       <DependentUpon>CommentsWindow.xaml</DependentUpon>
     </Compile>
-    <Compile Include="CustomSqlException.cs" />
     <Compile Include="Department.cs" />
-    <Compile Include="Competense.cs" />
     <Compile Include="IListManager.cs" />
     <Compile Include="IPersonal.cs" />
     <Compile Include="ItSupport.cs" />

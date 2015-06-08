@@ -29,6 +29,9 @@ namespace AES
     /// </summary>
     public partial class CaseWindow : Window
     {
+        /// <summary>
+        /// Initialization and declaration of thoose managerclasses needen to handle a case
+        /// </summary>
         CaseManager cm = new CaseManager();
         CategoryManager catm = new CategoryManager();
         PersonalManager pm = new PersonalManager();
@@ -43,7 +46,10 @@ namespace AES
             
         }
       
-
+        /// <summary>
+        /// Method that will initialize the GUI with default values
+        /// Comboxes is initalized either with values from Enums or from database
+        /// </summary>
         private void initGUI()
         {
             try
@@ -85,6 +91,10 @@ namespace AES
 
         } //End method initGUI
 
+        /// <summary>
+        /// Method that will display processleader and assignes depending on which category choosen
+        /// Call methods in the personalmanager with the category choosen as a string
+        /// </summary>
         private void populatePersonalLists()
         {
             pm.getItSupporters(comboBoxCategory.SelectedItem.ToString());
@@ -95,16 +105,25 @@ namespace AES
             pm.getProcessLeader(comboBoxCategory.SelectedItem.ToString());
             comboBoxCreateBy.ItemsSource = pm.ToStringArray();
             comboBoxCreateBy.SelectedIndex = 0;
-
-            
-
         }
 
+        /// <summary>
+        /// Event method that will respond when the clicks the cancel button and close the window without saving
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void btnCancel_Click(object sender, RoutedEventArgs e)
         {
             this.Close();
         }
 
+        /// <summary>
+        /// Method that responds when the user clicks the save button.
+        /// The method will check if the caseID is empty then its a new case to create
+        /// if there already is a cased id then it's a case that will be updated and call respective methods
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void btnSave_Click(object sender, RoutedEventArgs e)
         {
             if (string.IsNullOrEmpty(txtBoxCaseID.Text))
@@ -117,6 +136,16 @@ namespace AES
             }
         }
 
+        /// <summary>
+        /// Method that will be called if there is a new case that will be created.
+        /// Verify that the user has filled the forms correct and then initalize and declare
+        /// an object of the Case class. Fill the case variables with corresponding values from the user
+        /// and call the addcase method in the casemanager class with t reference to the case object.
+        /// 
+        /// Before method ending it verify if the user has entered any comments, if so the method
+        /// will initialize and declare a Comments object att store user input values to the commet object
+        /// variables and then call the addcomment method in CommentManager class with the reference to the comment object.
+        /// </summary>
         private void saveNewCase()
         {
             try
@@ -197,6 +226,17 @@ namespace AES
             }
         }// End method saveNewCase
 
+        /// <summary>
+        /// Method that will respond if there is an existing object that will be updated.
+        /// Creates a case object with the case id and thencall a method in the CaseManager class
+        /// that will update the row in the database table.
+        /// 
+        /// The method will also verify if any comments or solutions is entered and if so
+        /// solution will be to the case inforatiom to be stored in the solution table.
+        /// If comments i written by the user, then a new comment object will be initalized and a
+        /// call to the Commentmanager will be made to make a new row in the comment table in database
+        /// with the caseid as foreign key
+        /// </summary>
         private void UpdateCase()
         {
             try
@@ -276,6 +316,11 @@ namespace AES
             }
         }// End method
 
+        /// <summary>
+        /// Method that will be called from the MainWindow class before showing window for the user.
+        /// This method is used to fill the window with information about the case selected in the MainWindow list
+        /// </summary>
+        /// <param name="id"></param>
         public void openCase(int id)
         {
             try
@@ -308,11 +353,27 @@ namespace AES
             }
         } //End method openCase
 
+        /// <summary>
+        /// Method that will call the ShowTaskList in the WorkTaskManager class.
+        /// That is to display the worktaskt associate with each case
+        /// </summary>
+        /// <param name="id"></param>
         private void ShowTaskList(int id)
         {
-            this.dgwTask.ItemsSource = wtm.ShowTaskList(id);
+            try
+            {
+                this.dgwTask.ItemsSource = wtm.ShowTaskList(id);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("An error occured while loading the worktask list: \n" + +ex.Message);
+            }
         }
 
+        /// <summary>
+        /// Validation method to ensure that a case can't be saved with inappropriate values
+        /// </summary>
+        /// <returns></returns>
         private bool validateSelections()
         {
             string selectedAssigne = comboBoxAssigne.SelectedItem.ToString();
@@ -346,6 +407,10 @@ namespace AES
 
         }
 
+        /// <summary>
+        /// Validation method to ensure that a case can't be saved with inappropriate values
+        /// </summary>
+        /// <returns></returns>
         private bool validateName()
         {
             
@@ -381,6 +446,10 @@ namespace AES
 
         }
 
+        /// <summary>
+        /// Validation method to ensure that a case can't be saved with inappropriate values
+        /// </summary>
+        /// <returns></returns>
         public bool validatePhone()
         {
             string tempPhone = txtBoxPhone.Text;
@@ -395,6 +464,10 @@ namespace AES
                 return true;
         }
 
+        /// <summary>
+        /// Validation method to ensure that a case can't be saved with inappropriate values
+        /// </summary>
+        /// <returns></returns>
         public bool validateCasInfo()
         {
             string temptTitle = txtBoxTitel.Text;
@@ -460,6 +533,17 @@ namespace AES
             return enumValList;
         }
 
+        /// <summary>
+        /// Method that will be called when the user clicks the Add task button.
+        /// The method will initalize the AddTaskWindow class with a two variables constructor
+        /// that will recieve current caseid and the processleaders name, this informaton is used in the
+        /// AddTaskWindow to store the task with foreing key to the caseid.
+        /// 
+        /// The windows will be displayed as a dialog because the application to pause and resume when window is closed and
+        /// update the tasklist.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void btnAddTask_Click(object sender, RoutedEventArgs e)
         {
             try
@@ -482,11 +566,24 @@ namespace AES
             }
         }
 
+        /// <summary>
+        /// Event method that will be called when Category is changed, the method polpulatePersonalLists
+        /// will be called changing the processleader and assignes that has the category as competence
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void comboBoxCategory_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             populatePersonalLists();
         }
 
+        /// <summary>
+        /// Method that will be called when the user clicks the Read comments button,
+        /// Initialixe and declare an object of the window class CommentsWindow to its
+        /// custom one variable constructor recieving the caseid
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void btnReadComments_Click(object sender, RoutedEventArgs e)
         {
             try
@@ -505,6 +602,13 @@ namespace AES
 
         }
 
+        /// <summary>
+        /// Event method that will be called when the user clicks the Delete task button.
+        /// The method will verify that the user selects a task to delete then calls deltask method
+        /// in the WorkTaskManager class.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void btnDelTask_Click(object sender, RoutedEventArgs e)
         {
             try

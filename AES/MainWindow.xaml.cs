@@ -50,8 +50,14 @@ namespace AES
         /// </summary>
         private void LoadCases()
         {
-
-            this.DgCases.ItemsSource = cm.loadFromDatabase();
+            try
+            {
+                this.DgCases.ItemsSource = cm.loadFromDatabase();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("An error occured while loading the caselist.\nPlease verify your database connection\n" + ex.Message);
+            }
         }
 
         /// <summary>
@@ -108,7 +114,7 @@ namespace AES
 
         /// <summary>
         /// Method that will respond when the user hits the Search cases button.
-        /// The method will
+        /// The method will initialize and declare an object of the window class SearchWindow
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
@@ -118,6 +124,11 @@ namespace AES
             sw.Show();
         }
 
+        /// <summary>
+        /// Method that will respont when the user clicks the exit button and exit the application
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void btnExit_Click(object sender, RoutedEventArgs e)
         {
             Application.Current.Shutdown();
